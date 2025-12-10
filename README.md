@@ -79,7 +79,7 @@ docker compose version
 
 ```bash
 git clone <repository-url>
-cd LawnStarter
+cd lawnstarter-assignment
 ```
 
 ### 2. Environment Configuration
@@ -96,7 +96,7 @@ The `.env` file for Laravel is automatically created from `.env.example` during 
 
 ```bash
 # Build and start all containers
-docker compose up --build
+docker compose up -d --build
 ```
 
 This command will:
@@ -163,7 +163,7 @@ curl "http://localhost:8080/api/v1/statistics"
 ## 📁 Project Structure
 
 ```
-LawnStarter/
+lawnstarter-assignment/
 ├── backend/                    # Laravel backend application
 │   ├── app/
 │   │   ├── Exceptions/        # Custom exception classes
