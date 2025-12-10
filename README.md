@@ -96,6 +96,7 @@ The `.env` file for Laravel is automatically created from `.env.example` during 
 ```bash
 # Build and start all containers
 docker compose up -d --build
+```
 
 After execution, run the command below to check if the `swstarter_php` container is running:
 
@@ -111,9 +112,8 @@ docker compose up -d
 ```
 
 This will start all required containers and ensure the application is working correctly.
-```
 
-This command will:
+These commands will:
 - Build the PHP-FPM container with all dependencies
 - Install Composer dependencies
 - Generate Laravel application key
