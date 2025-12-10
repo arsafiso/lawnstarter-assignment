@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import '../styles/BackButton.css';
 
-function BackButton() {
+function BackButton({ onClick }) {
   const navigate = useNavigate();
 
   const handleBack = () => {
+    if (onClick) return onClick();
     navigate(-1);
   };
 

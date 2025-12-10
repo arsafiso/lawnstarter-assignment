@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { searchAPI } from '../services/api';
 import Header from '../components/Header';
-import BackButton from '../components/BackButton';
+import Button from '../components/Button';
 import '../styles/DetailsPage.css';
 
 function MovieDetails() {
@@ -21,7 +21,6 @@ function MovieDetails() {
       try {
         const response = await searchAPI.getFilm(id);
         if (response.success) {
-          console.log(response);
           setMovie(response.data.result.properties);
         } else {
           setError('Failed to fetch movie details');
@@ -40,66 +39,103 @@ function MovieDetails() {
     navigate('/');
   };
 
-  const handleCharacterClick = (characterId) => {
-    navigate(`/person/${characterId}`);
-  };
-
   if (loading) {
     return (
-      <div className="details-page">
-        <Header />
-        <div className="loading">Loading...</div>
-      </div>
+      <>
+        <Header showBack />
+        <div className="page-wrapper">
+          <div className="movie-card">
+            <div className="card-inner">
+              <div className="movie-content">
+                <div className="movie-name skeleton skeleton-title"></div>
+
+                <div className="movie-grid">
+                  <div className="movie-column">
+                    <div className="column-title skeleton skeleton-subtitle"></div>
+                    <div className="column-divider skeleton skeleton-divider"></div>
+                    <div className="skeleton skeleton-text"></div>
+                    <div className="skeleton skeleton-text"></div>
+                    <div className="skeleton skeleton-text"></div>
+                    <div className="skeleton skeleton-text"></div>
+                    <div className="skeleton skeleton-text"></div>
+                  </div>
+
+                  <div className="movie-column">
+                    <div className="column-title skeleton skeleton-subtitle"></div>
+                    <div className="column-divider skeleton skeleton-divider"></div>
+                    <div className="skeleton skeleton-text"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="back-btn-wrapper">
+                <div className="skeleton skeleton-button"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 
   if (error || !movie) {
     return (
-      <div className="details-page">
-        <Header />
-        <div className="error-message">{error || 'Movie not found'}</div>
-        <button className="back-button-bottom" onClick={handleBackToSearch}>
-          BACK TO SEARCH
-        </button>
-      </div>
+      <>
+        <Header showBack />
+        <div className="page-wrapper">
+          <div className="error-state">{error || 'Movie not found'}</div>
+          <Button onClick={handleBackToSearch}>
+            BACK TO SEARCH
+          </Button>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="details-page">
-      <Header />
-      <BackButton />
-      
-      <div className="details-container">
-        <h1 className="details-name">{movie.title}</h1>
-        
-        <div className="details-section">
-          <h2 className="section-title">Opening Crawl</h2>
-          <p className="opening-crawl">{movie.opening_crawl}</p>
-        </div>
+    <>
+      <Header showBack />
+      <div className="page-wrapper">      
+        <div className="movie-card">
+          <div className="card-inner">
+            <div className="movie-content">
+              <h1 className="movie-name">{movie.title}</h1>
 
-        {movie.characters && movie.characters.length > 0 && (
-          <div className="details-section">
-            <h2 className="section-title">Characters</h2>
-            <div className="characters-list">
-              {movie.characters.map((character, idx) => (
-                <button
-                  key={character.id ?? idx}
-                  className="character-link"
-                  onClick={() => handleCharacterClick(character.id)}
-                >
-                  {character.name}
-                </button>
-              ))}
+              <div className="movie-grid">
+                <div className="movie-column">
+                  <h2 className="column-title">Opening Crawl</h2>
+                  <hr className="column-divider" />
+                  <p className="opening-crawl">{movie.opening_crawl}</p>
+                </div>
+
+                {movie.characters && movie.characters.length > 0 && (
+                  <div className="movie-column">
+                    <h2 className="column-title">Characters</h2>
+                    <hr className="column-divider" />
+                    <p className="characters-inline">
+                      {movie.characters.map((character, idx) => (
+                        <span key={character.id ?? idx}>
+                          <Link to={`/person/${character.id}`} className="film-link">
+                            {character.name}
+                          </Link>
+                          {idx < movie.characters.length - 1 && ', '}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="back-btn-wrapper">
+              <Button onClick={handleBackToSearch}>
+                BACK TO SEARCH
+              </Button>
             </div>
           </div>
-        )}
-
-        <button className="back-button-bottom" onClick={handleBackToSearch}>
-          BACK TO SEARCH
-        </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

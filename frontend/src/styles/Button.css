@@ -1,0 +1,75 @@
+.button {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: var(--fs-body);
+  font-weight: 700;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--green-teal);
+  color: white;
+}
+
+.btn-back:hover,
+.button-primary:hover,
+.details-button:hover,
+.back-to-search:hover {
+  background-color: #089954;
+}
+
+.button-primary:disabled {
+  background-color: #c4c4c4;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.details-button {
+  width: unset;
+  min-width: 140px;
+}
+
+.back-to-search {
+  margin-bottom: 0;
+  position: fixed;
+  color: #fff;
+  background-color: var(--green-teal);
+  width: auto;
+
+  bottom: var(--page-margin);
+  right: var(--page-margin);
+  left: var(--page-margin);
+}
+
+.btn-back {
+  width: unset;
+  min-width: 220px;
+}
+
+@media (max-height: 650px) {
+  .back-to-search {
+    width: 100%;
+    margin-top: var(--page-margin);
+    position: initial;
+  }
+}
+
+@media (max-width: 768px) {  
+  .btn-back {
+    margin-bottom: 10px;
+    position: sticky;
+    color: #fff;
+    width: 100%;
+
+    bottom: var(--page-margin);
+    right: var(--page-margin);
+    left: var(--page-margin);
+  }
+  .button {
+    padding: 10px 16px;
+  }
+
+  .details-button {
+    width: 100%;
+  }
+}

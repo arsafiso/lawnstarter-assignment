@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     libzip-dev \
-    supervisor
+    supervisor \
+    default-mysql-client
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -27,8 +28,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
+# Copy application code
+COPY backend/ /var/www/html/
+
 # Copy supervisor configuration
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create necessary directories
 RUN mkdir -p /var/www/html/storage/logs \
@@ -36,13 +40,17 @@ RUN mkdir -p /var/www/html/storage/logs \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html
 
-# Copy start script
-COPY start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
+# Setup environment and dependencies
+RUN if [ ! -f ".env" ]; then cp .env.example .env; fi
+RUN composer install --no-interaction
+RUN php artisan key:generate
+RUN php artisan config:clear
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Create supervisor log directory
 RUN mkdir -p /var/log/supervisor
 
-# Expose port 9000 and start supervisor (manages php-fpm, queue, and scheduler)
+# Expose port 9000 and start supervisor
 EXPOSE 9000
-CMD ["/usr/local/bin/start.sh"]
+CMD ["sh", "-c", "php artisan migrate --force && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
