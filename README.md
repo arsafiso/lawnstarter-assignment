@@ -96,6 +96,21 @@ The `.env` file for Laravel is automatically created from `.env.example` during 
 ```bash
 # Build and start all containers
 docker compose up -d --build
+
+After execution, run the command below to check if the `swstarter_php` container is running:
+
+```bash
+docker ps
+```
+
+- If the `swstarter_php` container is running, everything is set and the application is ready to use.
+- If it is not running, execute:
+
+```bash
+docker compose up -d
+```
+
+This will start all required containers and ensure the application is working correctly.
 ```
 
 This command will:
@@ -147,7 +162,7 @@ You can test the API endpoints directly using curl or tools like Postman:
 curl "http://localhost:8080/api/v1/search" \
   -X POST \
   -H "Content-Type: application/json" \
-  -d '{"search_term": "luke", "search_type": "people"}'
+  -d '{"query": "luke", "type": "people"}'
 
 # Get person details by ID
 curl "http://localhost:8080/api/v1/people/1"
@@ -317,8 +332,8 @@ Search for Star Wars characters.
 **Request Body:**
 ```json
 {
-  "search_term": "luke",
-  "search_type": "people"
+  "query": "luke",
+  "type": "people"
 }
 ```
 
