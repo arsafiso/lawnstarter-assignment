@@ -35,8 +35,10 @@ COPY backend/ /var/www/html/
 COPY docker/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create necessary directories
-RUN mkdir -p /var/www/html/storage/logs \
-    && mkdir -p /var/www/html/storage/framework/view \
+RUN touch /var/www/html/storage/logs/laravel.log \
+    && touch /var/www/html/storage/logs/queue-worker.log \
+    && touch /var/www/html/storage/logs/schedule-worker.log \
+    && mkdir -p /var/www/html/storage/framework/views \
     && mkdir -p /var/www/html/storage/framework/sessions \
     && mkdir -p /var/www/html/storage/framework/cache/data \
     && mkdir -p /var/www/html/bootstrap/cache \
@@ -58,4 +60,4 @@ RUN mkdir -p /var/log/supervisor
 
 # Expose port 9000 and start supervisor
 EXPOSE 9000
-CMD ["sh", "-c", "php artisan migrate --force && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
+CMD ["sh", "-c", "sleep 10 && php artisan migrate --force && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
