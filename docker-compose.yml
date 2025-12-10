@@ -27,7 +27,6 @@ services:
       - ./backend/database:/var/www/html/database
       - ./backend/public:/var/www/html/public
       - ./backend/routes:/var/www/html/routes
-      - ./backend/storage:/var/www/html/storage
       - ./backend/.env.example:/var/www/html/.env.example
       - ./backend/.gitignore:/var/www/html/.gitignore
       - ./backend/artisan:/var/www/html/artisan

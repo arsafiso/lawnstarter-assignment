@@ -41,9 +41,7 @@ RUN mkdir -p /var/www/html/storage/logs \
     && mkdir -p /var/www/html/storage/framework/cache/data \
     && mkdir -p /var/www/html/bootstrap/cache \
     && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html \
-    && chmod -R 777 /var/www/html/storage/logs \
-    && chmod -R 777 /var/www/html/storage/framework
+    && chmod -R 775 /var/www/html
 
 # Setup environment and dependencies
 RUN if [ ! -f ".env" ]; then cp .env.example .env; fi
@@ -52,6 +50,8 @@ RUN php artisan key:generate
 RUN php artisan config:clear
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 777 /var/www/html/storage/logs \
+    && chmod -R 777 /var/www/html/storage/framework
 
 # Create supervisor log directory
 RUN mkdir -p /var/log/supervisor

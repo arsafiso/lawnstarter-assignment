@@ -3,16 +3,6 @@
 
 # Explicitly declare text files you want to always be normalized and converted
 # to native line endings on checkout
-*.php text eol=lf
-*.js text eol=lf
-*.jsx text eol=lf
-*.ts text eol=lf
-*.tsx text eol=lf
-*.json text eol=lf
-*.yml text eol=lf
-*.yaml text eol=lf
-*.md text eol=lf
-*.txt text eol=lf
 *.sh text eol=lf
 *.dockerfile text eol=lf
 Dockerfile text eol=lf

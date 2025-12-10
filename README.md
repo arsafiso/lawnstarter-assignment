@@ -88,7 +88,6 @@ The application uses Docker environment variables defined in `docker-compose.yml
 
 - **Database**: `swstarter` (user: `swstarter`, password: `secret`)
 - **Redis**: Running on default port 6379 (exposed as 6380)
-- **API Base URL**: SWAPI at `https://swapi.py4e.com/api/`
 
 The `.env` file for Laravel is automatically created from `.env.example` during the Docker build process.
 
